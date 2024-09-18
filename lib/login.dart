@@ -180,8 +180,8 @@ class _LoginState extends State<Login> {
                     ElevatedButton(
                       onPressed: login,
                       style: ElevatedButton.styleFrom(
-                        primary: const Color.fromARGB(255, 117, 84, 55),
-                        onPrimary: Colors.white,
+                        backgroundColor: const Color.fromARGB(255, 117, 84, 55), // เปลี่ยนจาก primary เป็น backgroundColor
+                        foregroundColor: Colors.white, // เปลี่ยนจาก onPrimary เป็น foregroundColor
                       ),
                       child: const Text('Login'),
                     ),
