@@ -244,7 +244,7 @@ class VoomState extends State<VoomPage> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text('Post'),
+                    child: const Text('Post', style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 247, 223, 202) , fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),

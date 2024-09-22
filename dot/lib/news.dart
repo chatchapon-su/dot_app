@@ -89,6 +89,7 @@ class NewsState extends State<NewsPage> {
                 return ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 251, 237, 218),
+                    elevation: 0,
                   ),
                   onPressed: () async {
                     final url = Uri.parse(newsDatatmp[index]['url']);
