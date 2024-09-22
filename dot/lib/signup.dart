@@ -332,7 +332,7 @@ class _SignUpState extends State<SignUp> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 117, 84, 55),
                       ),
-                      child: const Text('Sign Up'),
+                      child: const Text('Sign Up', style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 247, 223, 202))),
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
