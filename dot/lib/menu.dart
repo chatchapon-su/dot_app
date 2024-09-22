@@ -1,5 +1,6 @@
 import 'package:dot/chat.dart';
 import 'package:dot/friend.dart';
+import 'package:dot/selectvoom.dart';
 import 'package:dot/voom.dart';
 import 'package:flutter/material.dart';
 import 'news.dart';
@@ -20,11 +21,19 @@ class MenuPage extends StatefulWidget {
   const MenuPage({Key? key}) : super(key: key);
 
   @override
-  State<MenuPage> createState() => _MenuPageState();
+  State<MenuPage> createState() => MenuPageState();
 }
 
-class _MenuPageState extends State<MenuPage> {
+class MenuPageState extends State<MenuPage> {
   int _currentIndex = 0;
+  String _userselectid = '';
+
+  void changemenuIndex(int index, String userselectid) {
+    setState(() {
+      _currentIndex = index;
+      _userselectid = userselectid;
+    });
+  }
 
   Widget tab1() {
     return const FriendPage();
@@ -40,6 +49,10 @@ class _MenuPageState extends State<MenuPage> {
 
   Widget tab4() {
     return const NewsPage();
+  }
+
+  Widget tab5() {
+    return SelectvoomPage(userselectid: _userselectid);
   }
 
   Widget defaultContent() {
@@ -61,6 +74,8 @@ class _MenuPageState extends State<MenuPage> {
         return tab3();
       case 3:
         return tab4();
+      case 4:
+        return tab5();
       default:
         return defaultContent();
     }

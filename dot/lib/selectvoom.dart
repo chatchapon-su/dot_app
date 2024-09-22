@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
-import './menu.dart';
 
-class VoomPage extends StatefulWidget {
-  const VoomPage({Key? key}) : super(key: key);
+class SelectvoomPage extends StatefulWidget {
+  final String userselectid;
+
+  const SelectvoomPage({Key? key, required this.userselectid}) : super(key: key);
 
   @override
-  VoomState createState() => VoomState();
+  SelectvoomState createState() => SelectvoomState();
 }
 
-class VoomState extends State<VoomPage> {
+class SelectvoomState extends State<SelectvoomPage> {
   late String userId = '';
   late String userimage = '';
   late String username = '';
@@ -39,16 +40,14 @@ class VoomState extends State<VoomPage> {
     } catch (e) {
       showMessageDialog(
           // ignore: use_build_context_synchronously
-          context,
-          'Error',
-          'Error reading SharedPreferences: $e');
+          context, 'Error', 'Error reading SharedPreferences: $e');
     }
   }
 
   Future<void> fetchPosts() async {
     try {
       final response = await http
-          .get(Uri.parse('http://103.216.159.116:8990/voom_posts/$userId'));
+          .get(Uri.parse('http://103.216.159.116:8990/selectvoom_posts/$userId/${widget.userselectid}'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -63,9 +62,7 @@ class VoomState extends State<VoomPage> {
       } else {
         showMessageDialog(
             // ignore: use_build_context_synchronously
-            context,
-            'Error',
-            'Failed to fetch posts: ${response.statusCode}');
+            context, 'Error', 'Failed to fetch posts: ${response.statusCode}');
       }
     } catch (e) {
       // ignore: use_build_context_synchronously
@@ -73,37 +70,37 @@ class VoomState extends State<VoomPage> {
     }
   }
 
-  Future<void> postMessage() async {
-    if (postController.text.isEmpty) {
-      showMessageDialog(
-          context, 'Empty Post', 'Please enter some text for the post.');
-      return;
-    }
+  // Future<void> postMessage() async {
+  //   if (postController.text.isEmpty) {
+  //     showMessageDialog(
+  //         context, 'Empty Post', 'Please enter some text for the post.');
+  //     return;
+  //   }
 
-    try {
-      final response = await http.post(
-        Uri.parse('http://103.216.159.116:8990/create_post'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'userid': userId,
-          'voomtext': postController.text,
-          'voomprivacy': selectedPrivacy,
-        }),
-      );
-      //showMessageDialog(context, 'Test', 'response.statusCode : ${response}');
-      if (response.statusCode == 200) {
-        //showMessageDialog(context, 'Success', 'Post created successfully');
-        postController.clear();
-        fetchPosts(); // Reload posts after creating a new one
-      } else {
-        // ignore: use_build_context_synchronously
-        showMessageDialog(context, 'Error', 'Failed to create post');
-      }
-    } catch (e) {
-      // ignore: use_build_context_synchronously
-      showMessageDialog(context, 'Error', 'Error creating post: $e');
-    }
-  }
+  //   try {
+  //     final response = await http.post(
+  //       Uri.parse('http://103.216.159.116:8990/create_post'),
+  //       headers: {'Content-Type': 'application/json'},
+  //       body: jsonEncode({
+  //         'userid': userId,
+  //         'voomtext': postController.text,
+  //         'voomprivacy': selectedPrivacy,
+  //       }),
+  //     );
+  //     //showMessageDialog(context, 'Test', 'response.statusCode : ${response}');
+  //     if (response.statusCode == 200) {
+  //       //showMessageDialog(context, 'Success', 'Post created successfully');
+  //       postController.clear();
+  //       fetchPosts(); // Reload posts after creating a new one
+  //     } else {
+  //       // ignore: use_build_context_synchronously
+  //       showMessageDialog(context, 'Error', 'Failed to create post');
+  //     }
+  //   } catch (e) {
+  //     // ignore: use_build_context_synchronously
+  //     showMessageDialog(context, 'Error', 'Error creating post: $e');
+  //   }
+  // }
 
   void deletePost(String postId) async {
     try {
@@ -156,8 +153,6 @@ class VoomState extends State<VoomPage> {
     readData();
   }
 
-  final MenuPageState voomselect = MenuPageState();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,87 +173,6 @@ class VoomState extends State<VoomPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
-              ),
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        foregroundImage: NetworkImage(
-                            'http://103.216.159.116:8300/images/$userimage'),
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        username,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  DropdownButtonFormField<String>(
-                    value: selectedPrivacy,
-                    items: ['Public', 'Private']
-                        .map((label) => DropdownMenuItem(
-                              value: label,
-                              child: Text(label),
-                            ))
-                        .toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedPrivacy = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      labelText: 'Privacy',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: postController,
-                    decoration: InputDecoration(
-                      labelText: 'What are you thinking?',
-                      hintText: 'What are you thinking?',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    maxLines: 3,
-                  ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: postMessage,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF754C24),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Text('Post',
-                        style: TextStyle(
-                            fontSize: 24,
-                            color: Color.fromARGB(255, 247, 223, 202))),
-                  ),
-                ],
-              ),
-            ),
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -280,26 +194,16 @@ class VoomState extends State<VoomPage> {
                           children: [
                             Row(
                               children: [
-                                InkWell(
-                                  onTap: () {
-                                    voomselect.changemenuIndex(4, post['userid']);
-                                  },
-                                  child: CircleAvatar(
-                                    foregroundImage: NetworkImage(
-                                      'http://103.216.159.116:8300/images/${post['userimage']}',
-                                    ),
+                                CircleAvatar(
+                                  foregroundImage: NetworkImage(
+                                    'http://103.216.159.116:8300/images/${post['userimage']}',
                                   ),
                                 ),
                                 const SizedBox(width: 10),
-                                InkWell(
-                                  onTap: () {
-                                    voomselect.changemenuIndex(4, post['userid']);
-                                  },
-                                  child: Text(
-                                    post['username'],
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                Text(
+                                  post['username'],
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(width: 10),
                                 Icon(

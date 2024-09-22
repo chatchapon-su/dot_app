@@ -7,8 +7,6 @@ import 'dart:async';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:dio/dio.dart';
-
 class ChatroomPage extends StatefulWidget {
   final String chatId;
   final String chatusername;
@@ -176,19 +174,24 @@ class ChatroomState extends State<ChatroomPage> {
   Future<void> _uploadImage(
       File image, String chatdataid, String chatid) async {
     try {
-      final dio = Dio();
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse('http://103.216.159.116:8950/upload_image'),
+      );
 
-      FormData formData = FormData.fromMap({
-        'image': await MultipartFile.fromFile(image.path),
-        'chatdataid': chatdataid,
-        'chatid': chatid,
-        'userID': userId,
-      });
+      request.files.add(
+        await http.MultipartFile.fromPath('image', image.path),
+      );
+      request.fields['chatdataid'] = chatdataid;
+      request.fields['chatid'] = chatid;
+      request.fields['userID'] = userId;
 
-      final response = await dio.post('http://103.216.159.116:8950/upload_image', data: formData);
+      final response = await request.send();
 
       if (response.statusCode == 200) {
-        String imageUrl = response.data['imageUrl'];
+        final responseData = await response.stream.bytesToString();
+        final data = jsonDecode(responseData);
+        String imageUrl = data['imageUrl'];
 
         setState(() {
           _messages.add({
@@ -202,9 +205,12 @@ class ChatroomState extends State<ChatroomPage> {
         });
         _scrollToBottom();
       } else {
-        showMessageDialog(context, 'Error', 'Failed to upload image: ${response.statusCode}');
+        showMessageDialog(
+            // ignore: use_build_context_synchronously
+            context, 'Error', 'Failed to upload image: ${response.statusCode}');
       }
     } catch (e) {
+      // ignore: use_build_context_synchronously
       showMessageDialog(context, 'Error', 'Error uploading image: $e');
     }
   }
