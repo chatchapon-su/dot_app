@@ -8,7 +8,8 @@ import 'dart:async';
 class SelectvoomPage extends StatefulWidget {
   final String userselectid;
 
-  const SelectvoomPage({Key? key, required this.userselectid}) : super(key: key);
+  const SelectvoomPage({Key? key, required this.userselectid})
+      : super(key: key);
 
   @override
   SelectvoomState createState() => SelectvoomState();
@@ -32,7 +33,7 @@ class SelectvoomState extends State<SelectvoomPage> {
       username = prefs.getString('username') ?? '';
 
       if (userId.isNotEmpty) {
-        fetchPosts();
+        await fetchPosts();
       } else {
         // ignore: use_build_context_synchronously
         showMessageDialog(context, 'Error', 'User ID is empty');
@@ -40,20 +41,22 @@ class SelectvoomState extends State<SelectvoomPage> {
     } catch (e) {
       showMessageDialog(
           // ignore: use_build_context_synchronously
-          context, 'Error', 'Error reading SharedPreferences: $e');
+          context,
+          'Error',
+          'Error reading SharedPreferences: $e');
     }
   }
 
   Future<void> fetchPosts() async {
     try {
-      final response = await http
-          .get(Uri.parse('http://103.216.159.116:8990/selectvoom_posts/$userId/${widget.userselectid}'));
+      final response = await http.get(Uri.parse(
+          'http://103.216.159.116:8990/selectvoom_posts/$userId/${widget.userselectid}'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data['posts'] != null) {
           setState(() {
-            posts = data['posts'];
+            posts = List<dynamic>.from(data['posts']);
           });
         } else {
           // ignore: use_build_context_synchronously
@@ -62,7 +65,9 @@ class SelectvoomState extends State<SelectvoomPage> {
       } else {
         showMessageDialog(
             // ignore: use_build_context_synchronously
-            context, 'Error', 'Failed to fetch posts: ${response.statusCode}');
+            context,
+            'Error',
+            'Failed to fetch posts: ${response.statusCode}');
       }
     } catch (e) {
       // ignore: use_build_context_synchronously
@@ -173,6 +178,51 @@ class SelectvoomState extends State<SelectvoomPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Container(
+              width: MediaQuery.of(context).size.width, // กำหนดความกว้างให้เท่ากับความกว้างของหน้าจอ
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              padding: const EdgeInsets.all(20),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (posts.isNotEmpty) 
+                      Column(
+                        children: [
+                          CircleAvatar(
+                            foregroundImage: NetworkImage(
+                              'http://103.216.159.116:8300/images/${posts[0]['userimage']}',
+                            ),
+                            radius: 50,
+                          ),
+                          const SizedBox(width: 20),
+                          const SizedBox(height: 20),
+                          Text(
+                            posts[0]['username'],
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 20),
+                        ],
+                      )
+                    else
+                      const Text('กำลังโหลดข้อมูล...'),
+                  ],
+                ),
+              ),
+            ),
+
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),

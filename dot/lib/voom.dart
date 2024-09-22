@@ -7,8 +7,10 @@ import 'dart:async';
 import './menu.dart';
 
 class VoomPage extends StatefulWidget {
-  const VoomPage({Key? key}) : super(key: key);
-
+  final Function(int, String) changemenuIndex;
+  const VoomPage({Key? key,required this.changemenuIndex}) : super(key: key);
+  
+  
   @override
   VoomState createState() => VoomState();
 }
@@ -282,7 +284,7 @@ class VoomState extends State<VoomPage> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    voomselect.changemenuIndex(4, post['userid']);
+                                    widget.changemenuIndex(4, post['userid']);
                                   },
                                   child: CircleAvatar(
                                     foregroundImage: NetworkImage(
@@ -293,7 +295,7 @@ class VoomState extends State<VoomPage> {
                                 const SizedBox(width: 10),
                                 InkWell(
                                   onTap: () {
-                                    voomselect.changemenuIndex(4, post['userid']);
+                                    widget.changemenuIndex(4, post['userid']);
                                   },
                                   child: Text(
                                     post['username'],

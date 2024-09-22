@@ -30,7 +30,7 @@ class MenuPageState extends State<MenuPage> {
 
   void changemenuIndex(int index, String userselectid) {
     setState(() {
-      _currentIndex = index;
+      _currentIndex = 4;
       _userselectid = userselectid;
     });
   }
@@ -44,7 +44,7 @@ class MenuPageState extends State<MenuPage> {
   }
 
   Widget tab3() {
-    return const VoomPage();
+    return VoomPage(changemenuIndex: changemenuIndex);
   }
 
   Widget tab4() {
@@ -86,29 +86,78 @@ class MenuPageState extends State<MenuPage> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 117, 84, 55),
       body: getContent(_currentIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 117, 84, 55),
-        selectedItemColor: const Color.fromARGB(255, 226, 184, 148),
-        unselectedItemColor: Colors.white,
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_2_rounded),
-            label: 'Friend',
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.chat_rounded), label: 'Chat'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.play_arrow_rounded), label: 'Voom'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.newspaper_rounded), label: 'Today'),
-        ],
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+      bottomNavigationBar: Container(
+        height: 55, // ปรับความสูงที่นี่
+        color: const Color.fromARGB(255, 117, 84, 55),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () => setState(() { _currentIndex = 0; }),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent, // ลบพื้นหลัง
+                shadowColor: Colors.transparent, // ลบเงา
+                padding: EdgeInsets.zero, // ลบ padding
+                // ปรับค่าต่างๆ ตามที่คุณต้องการ
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min, // ใช้ขนาดที่น้อยที่สุด
+                children: [
+                  Icon(Icons.person_2_rounded, color: _currentIndex == 0 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white),
+                  Text('Friend', style: TextStyle(color: _currentIndex == 0 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white)),
+                ],
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () => setState(() { _currentIndex = 1; }),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent, // ลบพื้นหลัง
+                shadowColor: Colors.transparent, // ลบเงา
+                padding: EdgeInsets.zero, // ลบ padding
+                // ปรับค่าต่างๆ ตามที่คุณต้องการ
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min, // ใช้ขนาดที่น้อยที่สุด
+                children: [
+                  Icon(Icons.chat_rounded, color: _currentIndex == 1 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white),
+                  Text('Chat', style: TextStyle(color: _currentIndex == 1 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white)),
+                ],
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () => setState(() { _currentIndex = 2; }),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent, // ลบพื้นหลัง
+                shadowColor: Colors.transparent, // ลบเงา
+                padding: EdgeInsets.zero, // ลบ padding
+                // ปรับค่าต่างๆ ตามที่คุณต้องการ
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min, // ใช้ขนาดที่น้อยที่สุด
+                children: [
+                  Icon(Icons.play_arrow_rounded, color: _currentIndex == 2 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white),
+                  Text('Voom', style: TextStyle(color: _currentIndex == 2 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white)),
+                ],
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () => setState(() { _currentIndex = 3; }),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent, // ลบพื้นหลัง
+                shadowColor: Colors.transparent, // ลบเงา
+                padding: EdgeInsets.zero, // ลบ padding
+                // ปรับค่าต่างๆ ตามที่คุณต้องการ
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min, // ใช้ขนาดที่น้อยที่สุด
+                children: [
+                  Icon(Icons.newspaper_rounded, color: _currentIndex == 3 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white),
+                  Text('Today', style: TextStyle(color: _currentIndex == 3 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white)),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
