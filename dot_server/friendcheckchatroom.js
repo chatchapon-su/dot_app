@@ -28,7 +28,6 @@ app.post('/chatroom', async (req, res) => {
     try {
         const connection = await pool.getConnection();
 
-        // Check if chatroom already exists with either combination of userid and friendid
         const [rows] = await connection.query(
             `SELECT chatid FROM chatroom 
             WHERE (FIND_IN_SET(?, chatuserid) > 0 AND FIND_IN_SET(?, chatuserid) > 0) 
@@ -37,11 +36,9 @@ app.post('/chatroom', async (req, res) => {
         );
 
         if (rows.length > 0) {
-            // Chatroom exists
             const chatid = rows[0].chatid;
             res.status(200).json({ chatid });
         } else {
-            // Create a new chatroom
             await connection.query(
                 'INSERT INTO chatroom (chatname, chatuserid, chattype) VALUES (?, ?, ?)',
                 ['Chat with ' + friendid, `${userid},${friendid}`, 'person']

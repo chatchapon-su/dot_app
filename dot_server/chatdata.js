@@ -20,7 +20,6 @@ const initMySQL = async () => {
     });
 };
 
-// เรียกใช้ฟังก์ชัน initMySQL เพื่อเชื่อมต่อกับฐานข้อมูล
 initMySQL().catch(err => {
     console.error('Error initializing MySQL:', err);
     process.exit(1);
@@ -30,12 +29,11 @@ app.use(express.json());
 
 app.get('/messages/:chatId', async (req, res) => {
     const { chatId } = req.params;
-    const { userid } = req.query;  // รับ userid จาก query parameter
+    const { userid } = req.query;
 
     try {
         const connection = await pool.getConnection();
 
-        // ดึงข้อมูล username และ userimage ของผู้ใช้ปัจจุบัน
         const [userRows] = await connection.query(
             'SELECT username, userimage FROM users WHERE userid = ?',
             [userid]
@@ -48,7 +46,6 @@ app.get('/messages/:chatId', async (req, res) => {
 
         const { username, userimage } = userRows[0];
 
-        // ใช้ JOIN เพื่อดึงข้อมูลจากตาราง users พร้อมกับตาราง chatdata
         const query = `
             SELECT chatdata.*, users.username, users.userimage
             FROM chatdata
@@ -68,9 +65,7 @@ app.get('/messages/:chatId', async (req, res) => {
                 }
             });
             console.log('Messages retrieved successfully');
-        }// else {
-        //    res.status(404).json({ error: 'Chat ID not found' });
-        //}
+        }
     } catch (err) {
         console.error('Error fetching messages:', err);
         res.status(500).json({ error: 'Internal Server Error' });

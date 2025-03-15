@@ -22,14 +22,12 @@ const initMySQL = async () => {
 
 app.use(express.json());
 
-// API สำหรับดึงข้อมูลห้องแชทของผู้ใช้
 app.get('/chatrooms/:userid', async (req, res) => {
     const { userid } = req.params;
 
     try {
         const connection = await pool.getConnection();
 
-        // ดึงข้อมูลห้องแชทที่ผู้ใช้เป็นสมาชิก
         const [rows] = await connection.query(`
             SELECT chatroom.chatid, chatroom.chatuserid, MAX(chatdata.chatdataid) AS latest_chatdataid
             FROM chatroom
@@ -44,17 +42,14 @@ app.get('/chatrooms/:userid', async (req, res) => {
             const chatid = row.chatid;
             const chatUsers = row.chatuserid.split(',');
 
-            // ตรวจสอบว่าผู้ใช้เป็นสมาชิกในห้องแชทนี้หรือไม่
             if (chatUsers.includes(userid)) {
                 const otherUsers = chatUsers.filter(id => id !== userid);
 
-                // ดึงข้อมูลของเพื่อนจาก table users
                 const [userRows] = await connection.query(
                     'SELECT userid, username, userimage FROM users WHERE userid IN (?)',
                     [otherUsers]
                 );
 
-                // ดึงข้อความล่าสุดจาก chatdata
                 const [lastMessageRows] = await connection.query(
                     'SELECT chatmessage FROM chatdata WHERE chatid = ? ORDER BY chatdataid DESC LIMIT 1',
                     [chatid]
@@ -68,7 +63,7 @@ app.get('/chatrooms/:userid', async (req, res) => {
                         userID: user.userid,
                         userName: user.username,
                         userImage: user.userimage,
-                        lastMessage // เพิ่มข้อความล่าสุดเข้าไปในผลลัพธ์
+                        lastMessage
                     });
                 });
             }

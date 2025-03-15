@@ -78,7 +78,6 @@ app.post('/signup', upload.single('userimage'), async (req, res) => {
             return res.status(409).json({ message: 'User email already exists' });
         }
 
-        // Insert new user
         const [result] = await pool.query(
             `INSERT INTO users (userid, userimage, useremail, username, userpassword, usercountry, userfriend, userrequest) 
              VALUES (?, ?, ?, ?, ?, ?, '', '')`,

@@ -20,7 +20,7 @@ const initMySQL = async () => {
     });
 };
 
-initMySQL(); // เรียกใช้งานฟังก์ชันเพื่อเชื่อมต่อฐานข้อมูล
+initMySQL();
 
 app.use(express.json());
 
@@ -28,13 +28,11 @@ app.post('/messages', async (req, res) => {
   const { chatid, userID, message } = req.body;
 
   try {
-    // ดำเนินการบันทึกข้อมูล
     const [result] = await pool.query(
       'INSERT INTO chatdata (chatid, chatuserid, chatmessage) VALUES (?, ?, ?)',
       [chatid, userID, message]
     );
 
-    // ดึง chatdataid (ID ของแถวที่เพิ่งเพิ่ม) และส่งกลับไป
     const chatdataid = result.insertId;
 
     res.status(200).json({

@@ -27,8 +27,7 @@ app.post('/addfriend', async (req, res) => {
 
     try {
         const connection = await pool.getConnection();
-
-        // Check if the friend exists
+        
         const [friendRows] = await connection.query('SELECT * FROM users WHERE userid = ?', [friendid]);
 
         if (friendRows.length === 0) {
@@ -37,26 +36,25 @@ app.post('/addfriend', async (req, res) => {
 
         const friend = friendRows[0];
 
-        // Check if the current user's ID is in the friend's userrequest
         if (friend.userrequest && friend.userrequest.split(',').includes(userid)) {
-            // Remove current user's ID from friend's userrequest
+            
             const updatedUserRequest = friend.userrequest
                 .split(',')
                 .filter(id => id !== userid)
                 .join(',');
 
-            // Add current user's ID to friend's userfriend
+            
             const updatedUserFriend = friend.userfriend
                 ? friend.userfriend + ',' + userid
                 : userid;
 
-            // Update friend's userrequest and userfriend
+            
             await connection.query(
                 'UPDATE users SET userrequest = ?, userfriend = ? WHERE userid = ?',
                 [updatedUserRequest, updatedUserFriend, friendid]
             );
 
-            // Update current user's userfriend
+            
             const [userRows] = await connection.query('SELECT * FROM users WHERE userid = ?', [userid]);
             const user = userRows[0];
 
@@ -70,7 +68,7 @@ app.post('/addfriend', async (req, res) => {
             );
 
         } else {
-            // Add friend's ID to current user's userrequest
+            
             const [userRows] = await connection.query('SELECT * FROM users WHERE userid = ?', [userid]);
             const user = userRows[0];
 

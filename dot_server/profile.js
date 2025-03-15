@@ -11,7 +11,6 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
-// Create a connection pool
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',

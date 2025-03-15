@@ -33,7 +33,6 @@ app.get('/voom_posts/:userid', async (req, res) => {
     }
 
     try {
-        // Query to get user friends
         const [userRows] = await pool.query('SELECT userfriend FROM users WHERE userid = ?', [userid]);
 
         if (userRows.length === 0) {
@@ -43,7 +42,6 @@ app.get('/voom_posts/:userid', async (req, res) => {
         const user = userRows[0];
         const friendIds = user.userfriend ? user.userfriend.split(',').filter(id => id.trim() !== '') : [];
 
-        // SQL query to fetch posts
         let query = `
             SELECT voom.voomid, voom.voomtext, voom.voomprivacy, voom.userid, users.username, users.userimage
             FROM voom
@@ -65,7 +63,6 @@ app.get('/voom_posts/:userid', async (req, res) => {
 
         const queryParams = [...friendIds, userid];
 
-        // Execute the query
         const [voomRows] = await pool.query(query, queryParams);
 
         res.json({
@@ -94,7 +91,6 @@ app.get('/selectvoom_posts/:userid/:userselectid', async (req, res) => {
     }
 
     try {
-        // Query to get user friends
         const [userRows] = await pool.query('SELECT userfriend FROM users WHERE userid = ?', [userid]);
 
         if (userRows.length === 0) {
@@ -104,7 +100,6 @@ app.get('/selectvoom_posts/:userid/:userselectid', async (req, res) => {
         const user = userRows[0];
         const friendIds = user.userfriend ? user.userfriend.split(',').filter(id => id.trim() !== '') : [];
 
-        // SQL query to fetch posts
         let query = `
             SELECT voom.voomid, voom.voomtext, voom.voomprivacy, voom.userid, users.username, users.userimage
             FROM voom
@@ -124,9 +119,8 @@ app.get('/selectvoom_posts/:userid/:userselectid', async (req, res) => {
             ORDER BY voom.voomid DESC
         `;
 
-        const queryParams = [...friendIds]; // เปลี่ยนให้ใช้ userselectid แทน userid
+        const queryParams = [...friendIds];
 
-        // Execute the query
         const [voomRows] = await pool.query(query, [userselectid, ...queryParams,userid]);
 
         res.json({
@@ -153,13 +147,11 @@ app.get('/selectvoom_posts/:userid/:userselectid', async (req, res) => {
 app.post('/create_post', async (req, res) => {
     const { userid, voomtext, voomprivacy } = req.body;
 
-    //console.log(`userid : ${userid} voomtext : ${voomtext} voomprivacy : ${voomprivacy}`);
 
     if (!userid || !voomtext || !voomprivacy) {
         return res.status(400).json({ message: 'Missing required fields' });
     }
 
-    //console.log(`userid : ${userid} voomtext : ${voomtext} voomprivacy : ${voomprivacy}`);
 
     try {
         

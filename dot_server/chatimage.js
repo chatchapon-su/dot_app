@@ -11,10 +11,8 @@ const port = 8950;
 
 app.use(cors());
 
-// Define the directory where images are stored
 const baseImageDirectory = path.join(__dirname, 'chatimg');
 
-// Create MySQL connection pool
 let pool;
 
 const initMySQL = async () => {
@@ -27,20 +25,17 @@ const initMySQL = async () => {
     });
 };
 
-initMySQL(); // เรียกใช้งานฟังก์ชันเพื่อเชื่อมต่อฐานข้อมูล
+initMySQL();
 
-// Ensure the base image directory exists
 if (!fs.existsSync(baseImageDirectory)) {
     fs.mkdirSync(baseImageDirectory);
 }
 
-// Configure multer for file upload
 const storage = multer.diskStorage({
     destination: async (req, file, cb) => {
         const { chatid, chatdataid } = req.body;
         const chatFolder = path.join(baseImageDirectory, chatid);
 
-        // Create directory for chatid if it doesn't exist
         if (!fs.existsSync(chatFolder)) {
             fs.mkdirSync(chatFolder);
         }
@@ -50,20 +45,19 @@ const storage = multer.diskStorage({
     filename: (req, file, cb) => {
         const { chatdataid } = req.body;
         const ext = path.extname(file.originalname);
-        cb(null, `${chatdataid}${ext}`); // Rename file to chatdataid
+        cb(null, `${chatdataid}${ext}`);
     },
 });
 
 const upload = multer({ storage: storage });
 
-// Endpoint to upload images
 app.post('/upload_image', upload.single('image'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded' });
     }
 
     const { chatid, chatdataid } = req.body;
-    const imageUrl = `/images/${chatid}/${req.file.filename}`; // Construct the URL for the uploaded image
+    const imageUrl = `/images/${chatid}/${req.file.filename}`;
 
     try {
         const [result] = await pool.query(
@@ -77,18 +71,15 @@ app.post('/upload_image', upload.single('image'), async (req, res) => {
     }
 });
 
-// Endpoint to serve images
 app.get('/images/:chatid/:filename', (req, res) => {
     const { chatid, filename } = req.params;
     const filePath = path.join(baseImageDirectory, chatid, filename);
 
-    // Check if file exists
     fs.access(filePath, fs.constants.F_OK, (err) => {
         if (err) {
             return res.status(404).json({ message: 'Image not found' });
         }
 
-        // Send the image file
         res.sendFile(filePath);
     });
 });

@@ -29,7 +29,6 @@ app.get('/user/:userid', async (req, res) => {
     }
 
     try {
-        // 1. Retrieve the user's data
         const [userRows] = await pool.query('SELECT * FROM users WHERE userid = ?', [userid]);
         if (userRows.length === 0) {
             return res.status(404).json({ message: 'User not found' });
@@ -37,7 +36,6 @@ app.get('/user/:userid', async (req, res) => {
 
         const user = userRows[0];
         
-        // 2. Retrieve the user's friends
         const friendIds = user.userfriend.split(',').filter(id => id.trim() !== '');
         let friends = [];
         
@@ -46,7 +44,6 @@ app.get('/user/:userid', async (req, res) => {
             friends = friendRows;
         }
 
-        // 3. Send the response
         res.json({
             user: {
                 userid: user.userid,

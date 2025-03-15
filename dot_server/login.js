@@ -1,4 +1,3 @@
-// login.js
 const express = require('express');
 const mysql = require('mysql2/promise');
 const crypto = require('crypto');
@@ -38,14 +37,13 @@ app.post('/login', async (req, res) => {
     const hashedPassword = hashPassword(userpassword);
 
     try {
-        // Modified query to select the userid along with other fields
         const [rows] = await pool.query(
             'SELECT userid FROM users WHERE useremail = ? AND userpassword = ?',
             [useremail, hashedPassword]
         );
 
         if (rows.length > 0) {
-            const user = rows[0]; // Assuming we have a single user
+            const user = rows[0];
             res.status(200).json({ message: 'Login successful', userid: user.userid });
         } else {
             res.status(401).json({ message: 'Invalid credentials' });
