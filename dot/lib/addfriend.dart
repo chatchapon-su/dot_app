@@ -87,7 +87,7 @@ class _AddfriendState extends State<Addfriend> {
               key: _formKey,
               child: Column(
                 children: [
-                  const Text('Add Friend', style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 226, 184, 148))),
+                  const Text('Add Friend', style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 117, 84, 55))),
                   const SizedBox(height: 16),
                   const Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 10),

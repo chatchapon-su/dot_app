@@ -34,13 +34,10 @@ class NewsState extends State<NewsPage> {
 
       if (usercountry.isNotEmpty) {
         await fetchNews(usercountry);
-        //showMessageDialog(context, 'country', usercountry);
       } else {
-        // ignore: use_build_context_synchronously
         showMessageDialog(context, 'Error', 'User country is empty');
       }
     } catch (e) {
-      // ignore: use_build_context_synchronously
       showMessageDialog(context, 'Error', 'Error reading SharedPreferences: $e');
     }
   }
@@ -56,11 +53,9 @@ class NewsState extends State<NewsPage> {
           newsDatatmp = newsdata['articles'];
         });
       } else {
-        // ignore: use_build_context_synchronously
         showMessageDialog(context, 'Error', 'Failed to load news');
       }
     } catch (e) {
-      // ignore: use_build_context_synchronously
       showMessageDialog(context, 'Error', 'Error fetching news: $e');
     }
   }
@@ -86,42 +81,51 @@ class NewsState extends State<NewsPage> {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: newsDatatmp.length,
               itemBuilder: (context, index) {
-                return ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    elevation: 0,
-                    padding: EdgeInsets.zero,
-                  ),
-                  onPressed: () async {
+                return GestureDetector(
+                  onTap: () async {
                     final url = Uri.parse(newsDatatmp[index]['url']);
                     if (await canLaunchUrl(url)) {
                       await launchUrl(url);
                     } else {
-                      // ignore: use_build_context_synchronously
                       showMessageDialog(context, 'Error', 'Could not launch URL');
                     }
                   },
                   child: Card(
-                    elevation: 0,
-                    color: const Color.fromARGB(255, 251, 237, 218),
-                    child: SizedBox(
-                      width: 500,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              newsDatatmp[index]['title'] ?? 'No title',
-                              style: const TextStyle(color: Colors.black),
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            newsDatatmp[index]['title'] ?? 'No title',
+                            style: const TextStyle(
+                              color: Colors.brown,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
-                            Text(
-                              newsDatatmp[index]['author'] ?? 'No author',
-                              style: const TextStyle(color:  Color.fromARGB(255, 136, 136, 136)),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            newsDatatmp[index]['author'] ?? 'No author',
+                            style: const TextStyle(
+                              color: Color.fromARGB(255, 136, 136, 136),
+                              fontSize: 14,
                             ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            newsDatatmp[index]['description'] ?? 'No description',
+                            style: const TextStyle(
+                              color: Colors.black54,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

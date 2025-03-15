@@ -140,119 +140,152 @@ class FriendState extends State<FriendPage> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 251, 237, 218),
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 117, 84, 55),
-        title: const Text('Friend', style: TextStyle(color: Colors.white)),
-        automaticallyImplyLeading: false,
-      ),
-      body: Column(
-        children: [
-          if (userdata.isNotEmpty)
-            Container(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: const Color.fromARGB(255, 251, 237, 218),
+    appBar: AppBar(
+      backgroundColor: const Color.fromARGB(255, 117, 84, 55),
+      title: const Text('Friend', style: TextStyle(color: Colors.white)),
+      automaticallyImplyLeading: false,
+    ),
+    body: Column(
+      children: [
+        if (userdata.isNotEmpty)
+          Container(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                showUserProfile(context, userId);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 251, 237, 218),
+                foregroundColor: Colors.white,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15), // มุมมน
+                ),
+              ),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: CircleAvatar(
+                      foregroundImage: NetworkImage(
+                        'http://103.216.159.116:8300/images/${userdata[0]['userImage']}',
+                      ),
+                      radius: 30, // ขนาดของ Avatar
+                    ),
+                  ),
+                  Text(
+                    userdata[0]['userName'],
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 136, 136, 136),
+                      fontSize: 18, // ขนาดตัวอักษร
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        const Divider(color: Color.fromARGB(255, 226, 184, 148)),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Friends',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 136, 136, 136),
+                  fontSize: 20, // ขนาดตัวอักษร
+                  fontWeight: FontWeight.bold, // หนัก
+                ),
+              ),
+              ElevatedButton(
                 onPressed: () {
-                  showUserProfile(context, userId);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Addfriend()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 251, 237, 218),
-                  foregroundColor: Colors.white,
-                  elevation: 0,
+                  foregroundColor: const Color.fromARGB(255, 117, 84, 55),
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                 ),
-                child: Row(
+                child: const Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: CircleAvatar(
-                        foregroundImage: NetworkImage(
-                            'http://103.216.159.116:8300/images/${userdata[0]['userImage']}'),
-                      ),
-                    ),
-                    Text(
-                      userdata[0]['userName'],
-                      style: const TextStyle(color: Color.fromARGB(255, 136, 136, 136)),
-                    ),
+                    Icon(Icons.person),
+                    SizedBox(width: 5),
+                    Text('Add Friend'),
                   ],
                 ),
               ),
-            ),
-          const Divider(color: Color.fromARGB(255, 226, 184, 148)),
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Row(
-              children: [
-                const Text('Friends',
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 136, 136, 136),
-                        fontSize: 15)),
-                const SizedBox(
-                  width: 10,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
+            ],
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.all(5),
+            itemCount: frienddata.length,
+            itemBuilder: (context, index) {
+              final dataperson = frienddata[index];
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Card(
+                  color: const Color.fromARGB(255, 251, 237, 218),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      showFriendProfile(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const Addfriend()),
+                        dataperson['userID'],
+                        dataperson['userName'],
+                        dataperson['userImage'],
                       );
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 251, 237, 218),
-                      foregroundColor: const Color.fromARGB(255, 117, 84, 55),
-                      elevation: 0,
-                    ),
-                    child: const Icon(Icons.person))
-              ],
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(5),
-              itemCount: frienddata.length,
-              itemBuilder: (context, index) {
-                final dataperson = frienddata[index];
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      showFriendProfile(context, dataperson['userID'], dataperson['userName'], dataperson['userImage']);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 251, 237, 218),
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                    ),
-                    child: Card(
-                      elevation: 0,
-                      color: const Color.fromARGB(255, 251, 237, 218),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
                       child: Row(
                         children: [
                           CircleAvatar(
                             foregroundImage: NetworkImage(
-                                'http://103.216.159.116:8300/images/${dataperson['userImage']}'),
+                              'http://103.216.159.116:8300/images/${dataperson['userImage']}',
+                            ),
+                            radius: 30, // ขนาดของ Avatar
                           ),
                           const SizedBox(width: 10),
-                          Text(
-                            dataperson['userName'],
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 136, 136, 136)),
+                          Expanded(
+                            child: Text(
+                              dataperson['userName'],
+                              style: const TextStyle(
+                                color: Color.fromARGB(255, 136, 136, 136),
+                                fontSize: 16, // ขนาดตัวอักษร
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
+
 
   Future<void> fetchUserProfile(String userId) async {
     try {

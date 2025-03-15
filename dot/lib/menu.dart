@@ -93,7 +93,9 @@ class MenuPageState extends State<MenuPage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ElevatedButton(
-              onPressed: () => setState(() { _currentIndex = 0; }),
+              onPressed: () => setState(() {
+                _currentIndex = 0;
+              }),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent, // ลบพื้นหลัง
                 shadowColor: Colors.transparent, // ลบเงา
@@ -103,13 +105,22 @@ class MenuPageState extends State<MenuPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min, // ใช้ขนาดที่น้อยที่สุด
                 children: [
-                  Icon(Icons.person_2_rounded, color: _currentIndex == 0 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white),
-                  Text('Friend', style: TextStyle(color: _currentIndex == 0 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white)),
+                  Icon(Icons.person_2_rounded,
+                      color: _currentIndex == 0
+                          ? const Color.fromARGB(255, 226, 184, 148)
+                          : Colors.white),
+                  Text('Friend',
+                      style: TextStyle(
+                          color: _currentIndex == 0
+                              ? const Color.fromARGB(255, 226, 184, 148)
+                              : Colors.white)),
                 ],
               ),
             ),
             ElevatedButton(
-              onPressed: () => setState(() { _currentIndex = 1; }),
+              onPressed: () => setState(() {
+                _currentIndex = 1;
+              }),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent, // ลบพื้นหลัง
                 shadowColor: Colors.transparent, // ลบเงา
@@ -119,13 +130,22 @@ class MenuPageState extends State<MenuPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min, // ใช้ขนาดที่น้อยที่สุด
                 children: [
-                  Icon(Icons.chat_rounded, color: _currentIndex == 1 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white),
-                  Text('Chat', style: TextStyle(color: _currentIndex == 1 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white)),
+                  Icon(Icons.chat_rounded,
+                      color: _currentIndex == 1
+                          ? const Color.fromARGB(255, 226, 184, 148)
+                          : Colors.white),
+                  Text('Chat',
+                      style: TextStyle(
+                          color: _currentIndex == 1
+                              ? const Color.fromARGB(255, 226, 184, 148)
+                              : Colors.white)),
                 ],
               ),
             ),
             ElevatedButton(
-              onPressed: () => setState(() { _currentIndex = 2; }),
+              onPressed: () => setState(() {
+                _currentIndex = 2;
+              }),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent, // ลบพื้นหลัง
                 shadowColor: Colors.transparent, // ลบเงา
@@ -135,13 +155,22 @@ class MenuPageState extends State<MenuPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min, // ใช้ขนาดที่น้อยที่สุด
                 children: [
-                  Icon(Icons.play_arrow_rounded, color: _currentIndex == 2 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white),
-                  Text('Voom', style: TextStyle(color: _currentIndex == 2 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white)),
+                  Icon(Icons.play_arrow_rounded,
+                      color: _currentIndex == 2
+                          ? const Color.fromARGB(255, 226, 184, 148)
+                          : Colors.white),
+                  Text('Voom',
+                      style: TextStyle(
+                          color: _currentIndex == 2
+                              ? const Color.fromARGB(255, 226, 184, 148)
+                              : Colors.white)),
                 ],
               ),
             ),
             ElevatedButton(
-              onPressed: () => setState(() { _currentIndex = 3; }),
+              onPressed: () => setState(() {
+                _currentIndex = 3;
+              }),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent, // ลบพื้นหลัง
                 shadowColor: Colors.transparent, // ลบเงา
@@ -151,8 +180,15 @@ class MenuPageState extends State<MenuPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min, // ใช้ขนาดที่น้อยที่สุด
                 children: [
-                  Icon(Icons.newspaper_rounded, color: _currentIndex == 3 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white),
-                  Text('Today', style: TextStyle(color: _currentIndex == 3 ? const Color.fromARGB(255, 226, 184, 148) : Colors.white)),
+                  Icon(Icons.newspaper_rounded,
+                      color: _currentIndex == 3
+                          ? const Color.fromARGB(255, 226, 184, 148)
+                          : Colors.white),
+                  Text('Today',
+                      style: TextStyle(
+                          color: _currentIndex == 3
+                              ? const Color.fromARGB(255, 226, 184, 148)
+                              : Colors.white)),
                 ],
               ),
             ),

@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:dot/login.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 
 class ProfilePage extends StatefulWidget {
@@ -27,13 +26,10 @@ class ProfileState extends State<ProfilePage> {
       if (userId.isNotEmpty) {
         await fetchUserProfile(userId);
       } else {
-        // ignore: use_build_context_synchronously
         showMessageDialog(context, 'Error', 'User ID is empty');
       }
     } catch (e) {
-      showMessageDialog(
-          // ignore: use_build_context_synchronously
-          context, 'Error', 'Error reading SharedPreferences: $e');
+      showMessageDialog(context, 'Error', 'Error reading SharedPreferences: $e');
     }
   }
 
@@ -54,12 +50,9 @@ class ProfileState extends State<ProfilePage> {
           usercountry = data['usercountry'] ?? 'N/A';
         });
       } else {
-        showMessageDialog(
-            // ignore: use_build_context_synchronously
-            context, 'Error', 'Failed to fetch user profile: ${response.body}');
+        showMessageDialog(context, 'Error', 'Failed to fetch user profile: ${response.body}');
       }
     } catch (e) {
-      // ignore: use_build_context_synchronously
       showMessageDialog(context, 'Error', 'Error fetching user profile: $e');
     }
   }
@@ -82,44 +75,59 @@ class ProfileState extends State<ProfilePage> {
         child: Padding(
           padding: const EdgeInsets.all(25),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircleAvatar(
-                radius: 50,
+                radius: 60,
+                backgroundColor: Colors.grey.shade300,
                 foregroundImage: userimage.isNotEmpty
-                    ? NetworkImage(
-                        'http://103.216.159.116:8300/images/$userimage')
-                    : const AssetImage('assets/images/Dot.jpg')
-                        as ImageProvider,
+                    ? NetworkImage('http://103.216.159.116:8300/images/$userimage')
+                    : const AssetImage('assets/images/Dot.jpg') as ImageProvider,
               ),
               const SizedBox(height: 20),
-              Row(
-                children: [
-                  const Icon(Icons.person, color: Color.fromARGB(255, 117, 84, 55)),
-                  const SizedBox(width: 15),
-                  Text(username, style: const TextStyle(color: Color.fromARGB(255, 226, 184, 148) , fontSize: 15)),
-                ],
+              Card(
+                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 5,
+                child: ListTile(
+                  leading: const Icon(Icons.person, color: Color.fromARGB(255, 117, 84, 55)),
+                  title: Text(username, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                ),
               ),
-              Row(
-                children: [
-                  const Icon(Icons.credit_card_rounded, color: Color.fromARGB(255, 117, 84, 55)),
-                  const SizedBox(width: 15),
-                  Text(userId, style: const TextStyle(color: Color.fromARGB(255, 226, 184, 148) , fontSize: 15)),
-                ],
+              Card(
+                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 5,
+                child: ListTile(
+                  leading: const Icon(Icons.credit_card_rounded, color: Color.fromARGB(255, 117, 84, 55)),
+                  title: Text(userId, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                ),
               ),
-              Row(
-                children: [
-                  const Icon(Icons.email_rounded, color: Color.fromARGB(255, 117, 84, 55)),
-                  const SizedBox(width: 15),
-                  Text(useremail, style: const TextStyle(color: Color.fromARGB(255, 226, 184, 148), fontSize: 15)),
-                ],
+              Card(
+                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 5,
+                child: ListTile(
+                  leading: const Icon(Icons.email_rounded, color: Color.fromARGB(255, 117, 84, 55)),
+                  title: Text(useremail, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                ),
               ),
-              Row(
-                children: [
-                  const Icon(Icons.flag, color: Color.fromARGB(255, 117, 84, 55)),
-                  const SizedBox(width: 15),
-                  Text(usercountry,
-                      style: const TextStyle(color:Color.fromARGB(255, 226, 184, 148) , fontSize: 15)),
-                ],
+              Card(
+                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 5,
+                child: ListTile(
+                  leading: const Icon(Icons.flag, color: Color.fromARGB(255, 117, 84, 55)),
+                  title: Text(usercountry, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                ),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
@@ -127,7 +135,6 @@ class ProfileState extends State<ProfilePage> {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   await prefs.clear();
                   Navigator.pushReplacement(
-                    // ignore: use_build_context_synchronously
                     context,
                     MaterialPageRoute(builder: (context) => const Login()),
                   );
@@ -146,8 +153,7 @@ class ProfileState extends State<ProfilePage> {
   }
 }
 
-Future<dynamic> showMessageDialog(
-    BuildContext context, String headerMsg, String msg) {
+Future<dynamic> showMessageDialog(BuildContext context, String headerMsg, String msg) {
   return showDialog(
     context: context,
     barrierDismissible: true,

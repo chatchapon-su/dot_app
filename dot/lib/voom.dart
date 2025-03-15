@@ -19,7 +19,8 @@ class VoomState extends State<VoomPage> {
   late String userId = '';
   late String userimage = '';
   late String username = '';
-  String? selectedPrivacy = 'Public';
+  String? selectedPrivacy = 'Public'; 
+  
   List<dynamic> posts = [];
   TextEditingController postController = TextEditingController();
 
@@ -163,7 +164,7 @@ class VoomState extends State<VoomPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F4F1),
+      backgroundColor: const Color.fromARGB(255, 251, 237, 218),
       appBar: AppBar(
         backgroundColor: const Color(0xFF754C24),
         title: const Text('Voom', style: TextStyle(color: Colors.white)),
@@ -212,14 +213,29 @@ class VoomState extends State<VoomPage> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  DropdownButtonFormField<String>(
+                DropdownButtonFormField<String>(
                     value: selectedPrivacy,
-                    items: ['Public', 'Private']
-                        .map((label) => DropdownMenuItem(
-                              value: label,
-                              child: Text(label),
-                            ))
-                        .toList(),
+                    items: const [
+                    DropdownMenuItem(
+                        value: 'Public',
+                        child: Row(
+                          children: [
+                            Icon(Icons.public),
+                            SizedBox(width: 8 ),
+                            Text('Public'),
+                          ],
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Private',
+                        child: Row(
+                          children: [
+                            Icon(Icons.people_rounded),
+                            SizedBox(width: 8 ),
+                            Text ('Private'),
+                          ],
+                        ),
+                      ),],
                     onChanged: (value) {
                       setState(() {
                         selectedPrivacy = value;
@@ -244,18 +260,18 @@ class VoomState extends State<VoomPage> {
                     ),
                     maxLines: 3,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
                   ElevatedButton(
                     onPressed: postMessage,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF754C24),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                     ),
                     child: const Text('Post',
                         style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 15,
                             color: Color.fromARGB(255, 247, 223, 202))),
                   ),
                 ],
@@ -311,7 +327,7 @@ class VoomState extends State<VoomPage> {
                                   size: 20,
                                   color: post['voomprivacy'] == 'Public'
                                       ? Colors.blue
-                                      : Colors.grey,
+                                      : const Color.fromARGB(255, 62, 62, 62),
                                 ),
                               ],
                             ),
