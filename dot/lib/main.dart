@@ -72,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
     //if (_formKey.currentState?.validate() ?? false) {
       try {
         final response = await http.post(
-          Uri.parse('http://103.216.159.116:8100/login'),
+          Uri.parse('http://yourdomain:8100/login'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'useremail': readUsername,

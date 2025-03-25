@@ -50,7 +50,7 @@ class SelectvoomState extends State<SelectvoomPage> {
   Future<void> fetchPosts() async {
     try {
       final response = await http.get(Uri.parse(
-          'http://103.216.159.116:8990/selectvoom_posts/$userId/${widget.userselectid}'));
+          'http://yourdomain:8990/selectvoom_posts/$userId/${widget.userselectid}'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -85,7 +85,7 @@ class SelectvoomState extends State<SelectvoomPage> {
 
   //   try {
   //     final response = await http.post(
-  //       Uri.parse('http://103.216.159.116:8990/create_post'),
+  //       Uri.parse('http://yourdomain:8990/create_post'),
   //       headers: {'Content-Type': 'application/json'},
   //       body: jsonEncode({
   //         'userid': userId,
@@ -111,7 +111,7 @@ class SelectvoomState extends State<SelectvoomPage> {
   void deletePost(String postId) async {
     try {
       final response = await http.put(
-        Uri.parse('http://103.216.159.116:8990/mark_post_as_deleted'),
+        Uri.parse('http://yourdomain:8990/mark_post_as_deleted'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'postId': postId}),
       );
@@ -132,7 +132,7 @@ class SelectvoomState extends State<SelectvoomPage> {
     try {
       //showMessageDialog(context, 'test', 'postId : $postId newPrivacy : $newPrivacy');
       final response = await http.put(
-        Uri.parse('http://103.216.159.116:8990/update_post_privacy'),
+        Uri.parse('http://yourdomain:8990/update_post_privacy'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'postId': postId,
@@ -203,7 +203,7 @@ class SelectvoomState extends State<SelectvoomPage> {
                         children: [
                           CircleAvatar(
                             foregroundImage: NetworkImage(
-                              'http://103.216.159.116:8300/images/${posts[0]['userimage']}',
+                              'http://yourdomain:8300/images/${posts[0]['userimage']}',
                             ),
                             radius: 50,
                           ),
@@ -247,7 +247,7 @@ class SelectvoomState extends State<SelectvoomPage> {
                               children: [
                                 CircleAvatar(
                                   foregroundImage: NetworkImage(
-                                    'http://103.216.159.116:8300/images/${post['userimage']}',
+                                    'http://yourdomain:8300/images/${post['userimage']}',
                                   ),
                                 ),
                                 const SizedBox(width: 10),

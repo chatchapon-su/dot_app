@@ -51,7 +51,7 @@ class VoomState extends State<VoomPage> {
   Future<void> fetchPosts() async {
     try {
       final response = await http
-          .get(Uri.parse('http://103.216.159.116:8990/voom_posts/$userId'));
+          .get(Uri.parse('http://yourdomain:8990/voom_posts/$userId'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -86,7 +86,7 @@ class VoomState extends State<VoomPage> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://103.216.159.116:8990/create_post'),
+        Uri.parse('http://yourdomain:8990/create_post'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'userid': userId,
@@ -112,7 +112,7 @@ class VoomState extends State<VoomPage> {
   void deletePost(String postId) async {
     try {
       final response = await http.put(
-        Uri.parse('http://103.216.159.116:8990/mark_post_as_deleted'),
+        Uri.parse('http://yourdomain:8990/mark_post_as_deleted'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'postId': postId}),
       );
@@ -133,7 +133,7 @@ class VoomState extends State<VoomPage> {
     try {
       //showMessageDialog(context, 'test', 'postId : $postId newPrivacy : $newPrivacy');
       final response = await http.put(
-        Uri.parse('http://103.216.159.116:8990/update_post_privacy'),
+        Uri.parse('http://yourdomain:8990/update_post_privacy'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'postId': postId,
@@ -203,7 +203,7 @@ class VoomState extends State<VoomPage> {
                     children: [
                       CircleAvatar(
                         foregroundImage: NetworkImage(
-                            'http://103.216.159.116:8300/images/$userimage'),
+                            'http://yourdomain:8300/images/$userimage'),
                       ),
                       const SizedBox(width: 10),
                       Text(
@@ -305,7 +305,7 @@ class VoomState extends State<VoomPage> {
                                   },
                                   child: CircleAvatar(
                                     foregroundImage: NetworkImage(
-                                      'http://103.216.159.116:8300/images/${post['userimage']}',
+                                      'http://yourdomain:8300/images/${post['userimage']}',
                                     ),
                                   ),
                                 ),

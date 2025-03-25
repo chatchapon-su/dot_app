@@ -46,7 +46,7 @@ class _AddfriendState extends State<Addfriend> {
         });
 
         final response = await http.post(
-          Uri.parse('http://103.216.159.116:8400/addfriend'),
+          Uri.parse('http://yourdomain:8400/addfriend'),
           headers: {"Content-Type": "application/json"},
           body: body,
         );

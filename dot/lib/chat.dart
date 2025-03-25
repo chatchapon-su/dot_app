@@ -38,7 +38,7 @@ class ChatState extends State<ChatPage> {
 
   Future<void> fetchChatRooms() async {
     try {
-      final response = await http.get(Uri.parse('http://103.216.159.116:8600/chatrooms/$userId'));
+      final response = await http.get(Uri.parse('http://yourdomain:8600/chatrooms/$userId'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -114,7 +114,7 @@ class ChatState extends State<ChatPage> {
                       CircleAvatar(
                         //radius: 30,
                         backgroundImage: NetworkImage(
-                          'http://103.216.159.116:8300/images/${chatRoom['userImage']}',
+                          'http://yourdomain:8300/images/${chatRoom['userImage']}',
                         ),
                       ),
                       const SizedBox(width: 15),

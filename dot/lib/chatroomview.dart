@@ -64,7 +64,7 @@ class ChatroomState extends State<ChatroomPage> {
       userId = prefs.getString('userid') ?? '';
 
       final response = await http.get(Uri.parse(
-          'http://103.216.159.116:8700/messages/${widget.chatId}?userid=$userId'));
+          'http://yourdomain:8700/messages/${widget.chatId}?userid=$userId'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -76,7 +76,7 @@ class ChatroomState extends State<ChatroomPage> {
             if (message['chatimage'] != null &&
                 message['chatimage'].isNotEmpty) {
               message['imageUrl'] =
-                  'http://103.216.159.116:8950/images/${widget.chatId}/${message['chatimage']}';
+                  'http://yourdomain:8950/images/${widget.chatId}/${message['chatimage']}';
             }
             return message;
           }).toList();
@@ -126,7 +126,7 @@ class ChatroomState extends State<ChatroomPage> {
     if (text.isNotEmpty || _userimage != null) {
       try {
         final response = await http.post(
-          Uri.parse('http://103.216.159.116:8800/messages'),
+          Uri.parse('http://yourdomain:8800/messages'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'chatid': widget.chatId,
@@ -177,7 +177,7 @@ class ChatroomState extends State<ChatroomPage> {
     try {
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('http://103.216.159.116:8950/upload_image'),
+        Uri.parse('http://yourdomain:8950/upload_image'),
       );
 
       request.files.add(
@@ -268,7 +268,7 @@ class ChatroomState extends State<ChatroomPage> {
             children: [
               CircleAvatar(
                 backgroundImage: NetworkImage(
-                    'http://103.216.159.116:8300/images/$userImage'),
+                    'http://yourdomain:8300/images/$userImage'),
                 radius: 20,
               ),
               const SizedBox(width: 10),

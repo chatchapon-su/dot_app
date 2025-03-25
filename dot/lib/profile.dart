@@ -38,7 +38,7 @@ class ProfileState extends State<ProfilePage> {
   Future<void> fetchUserProfile(String userId) async {
     try {
       final response = await http.post(
-        Uri.parse('http://103.216.159.116:8900/getUserProfile'),
+        Uri.parse('http://yourdomain:8900/getUserProfile'),
         body: jsonEncode({'userId': userId}),
         headers: {'Content-Type': 'application/json'},
       );
@@ -84,7 +84,7 @@ class ProfileState extends State<ProfilePage> {
                 radius: 60,
                 backgroundColor: Colors.grey.shade300,
                 foregroundImage: userimage.isNotEmpty
-                    ? NetworkImage('http://103.216.159.116:8300/images/$userimage')
+                    ? NetworkImage('http://yourdomain:8300/images/$userimage')
                     : const AssetImage('assets/images/Dot.jpg') as ImageProvider,
               ),
               const SizedBox(height: 20),

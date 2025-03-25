@@ -95,7 +95,7 @@ class _SignUpState extends State<SignUp> {
       try {
         final request = http.MultipartRequest(
           'POST',
-          Uri.parse('http://103.216.159.116:8000/signup'),
+          Uri.parse('http://yourdomain:8000/signup'),
         );
 
         request.fields['userid'] = _userid.text.trim();

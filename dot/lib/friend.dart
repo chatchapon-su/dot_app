@@ -60,7 +60,7 @@ class FriendState extends State<FriendPage> {
 
   Future<void> fetchUserData() async {
     try {
-      final response = await http.get(Uri.parse('http://103.216.159.116:8210/user/$userId'));
+      final response = await http.get(Uri.parse('http://yourdomain:8210/user/$userId'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -97,7 +97,7 @@ class FriendState extends State<FriendPage> {
   }
 
   Future<void> handleChatRoom(String friendId, String friendname) async {
-    final url = Uri.parse('http://103.216.159.116:8500/chatroom');
+    final url = Uri.parse('http://yourdomain:8500/chatroom');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -170,7 +170,7 @@ class FriendState extends State<FriendPage> {
                       padding: const EdgeInsets.only(right: 10),
                       child: CircleAvatar(
                         foregroundImage: NetworkImage(
-                            'http://103.216.159.116:8300/images/${userdata[0]['userImage']}'),
+                            'http://yourdomain:8300/images/${userdata[0]['userImage']}'),
                       ),
                     ),
                     Text(
@@ -245,7 +245,7 @@ class FriendState extends State<FriendPage> {
                         children: [
                           CircleAvatar(
                             foregroundImage: NetworkImage(
-                                'http://103.216.159.116:8300/images/${dataperson['userImage']}'),
+                                'http://yourdomain:8300/images/${dataperson['userImage']}'),
                           ),
                           const SizedBox(width: 10),
                           Text(
@@ -269,7 +269,7 @@ class FriendState extends State<FriendPage> {
   Future<void> fetchUserProfile(String userId) async {
     try {
       final response = await http.post(
-        Uri.parse('http://103.216.159.116:8900/getUserProfile'),
+        Uri.parse('http://yourdomain:8900/getUserProfile'),
         body: jsonEncode({'userId': userId}),
         headers: {'Content-Type': 'application/json'},
       );
@@ -325,7 +325,7 @@ class FriendState extends State<FriendPage> {
                   ),
                   child: Center(
                     child: CircleAvatar(
-                      foregroundImage: NetworkImage('http://103.216.159.116:8300/images/$userimage'),
+                      foregroundImage: NetworkImage('http://yourdomain:8300/images/$userimage'),
                       radius: 50,
                     ),
                   ),
@@ -423,7 +423,7 @@ class FriendState extends State<FriendPage> {
                   ),
                   child: Center(
                     child: CircleAvatar(
-                      foregroundImage: NetworkImage('http://103.216.159.116:8300/images/$friendimage'),
+                      foregroundImage: NetworkImage('http://yourdomain:8300/images/$friendimage'),
                       radius: 50,
                     ),
                   ),
