@@ -66,6 +66,7 @@ class _LoginState extends State<Login> {
 
           if (userid.isNotEmpty) {
             await saveData(userid);
+            // ignore: use_build_context_synchronously
             Navigator.pushReplacement(
               // ignore: use_build_context_synchronously
               context,

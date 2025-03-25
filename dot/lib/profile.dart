@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dot/login.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 
 class ProfilePage extends StatefulWidget {
@@ -26,6 +27,7 @@ class ProfileState extends State<ProfilePage> {
       if (userId.isNotEmpty) {
         await fetchUserProfile(userId);
       } else {
+        // ignore: use_build_context_synchronously
         showMessageDialog(context, 'Error', 'User ID is empty');
       }
     } catch (e) {
@@ -50,6 +52,7 @@ class ProfileState extends State<ProfilePage> {
           usercountry = data['usercountry'] ?? 'N/A';
         });
       } else {
+        // ignore: use_build_context_synchronously
         showMessageDialog(context, 'Error', 'Failed to fetch user profile: ${response.body}');
       }
     } catch (e) {
@@ -134,6 +137,7 @@ class ProfileState extends State<ProfilePage> {
                 onPressed: () async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   await prefs.clear();
+                  // ignore: use_build_context_synchronously
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const Login()),

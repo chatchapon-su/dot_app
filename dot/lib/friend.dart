@@ -60,7 +60,7 @@ class FriendState extends State<FriendPage> {
 
   Future<void> fetchUserData() async {
     try {
-      final response = await http.get(Uri.parse('http://103.216.159.116:8200/user/$userId'));
+      final response = await http.get(Uri.parse('http://103.216.159.116:8210/user/$userId'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -108,6 +108,7 @@ class FriendState extends State<FriendPage> {
       final data = jsonDecode(response.body);
       final chatId = data['chatid'];
 
+      // ignore: use_build_context_synchronously
       Navigator.push(
         // ignore: use_build_context_synchronously
         context,
@@ -140,152 +141,130 @@ class FriendState extends State<FriendPage> {
     });
   }
 
- @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    backgroundColor: const Color.fromARGB(255, 251, 237, 218),
-    appBar: AppBar(
-      backgroundColor: const Color.fromARGB(255, 117, 84, 55),
-      title: const Text('Friend', style: TextStyle(color: Colors.white)),
-      automaticallyImplyLeading: false,
-    ),
-    body: Column(
-      children: [
-        if (userdata.isNotEmpty)
-          Container(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                showUserProfile(context, userId);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 251, 237, 218),
-                foregroundColor: Colors.white,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15), // มุมมน
-                ),
-              ),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: CircleAvatar(
-                      foregroundImage: NetworkImage(
-                        'http://103.216.159.116:8300/images/${userdata[0]['userImage']}',
-                      ),
-                      radius: 30, // ขนาดของ Avatar
-                    ),
-                  ),
-                  Text(
-                    userdata[0]['userName'],
-                    style: const TextStyle(
-                      color: Color.fromARGB(255, 136, 136, 136),
-                      fontSize: 18, // ขนาดตัวอักษร
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        const Divider(color: Color.fromARGB(255, 226, 184, 148)),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Friends',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 136, 136, 136),
-                  fontSize: 20, // ขนาดตัวอักษร
-                  fontWeight: FontWeight.bold, // หนัก
-                ),
-              ),
-              ElevatedButton(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 251, 237, 218),
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 117, 84, 55),
+        title: const Text('Friend', style: TextStyle(color: Colors.white)),
+        automaticallyImplyLeading: false,
+      ),
+      body: Column(
+        children: [
+          if (userdata.isNotEmpty)
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Addfriend()),
-                  );
+                  showUserProfile(context, userId);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 251, 237, 218),
-                  foregroundColor: const Color.fromARGB(255, 117, 84, 55),
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
+                  foregroundColor: Colors.white,
+                  elevation: 0,
                 ),
-                child: const Row(
+                child: Row(
                   children: [
-                    Icon(Icons.person),
-                    SizedBox(width: 5),
-                    Text('Add Friend'),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: CircleAvatar(
+                        foregroundImage: NetworkImage(
+                            'http://103.216.159.116:8300/images/${userdata[0]['userImage']}'),
+                      ),
+                    ),
+                    Text(
+                      userdata[0]['userName'],
+                      style: const TextStyle(color: Color.fromARGB(255, 136, 136, 136)),
+                    ),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: ListView.builder(
-            padding: const EdgeInsets.all(5),
-            itemCount: frienddata.length,
-            itemBuilder: (context, index) {
-              final dataperson = frienddata[index];
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Card(
-                  color: const Color.fromARGB(255, 251, 237, 218),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-
+            ),
+          const Divider(color: Color.fromARGB(255, 226, 184, 148)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Friends',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 136, 136, 136),
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
                   ),
-                  child: InkWell(
-                    onTap: () {
-                      showFriendProfile(
-                        context,
-                        dataperson['userID'],
-                        dataperson['userName'],
-                        dataperson['userImage'],
-                      );
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Addfriend()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 251, 237, 218),
+                    foregroundColor: const Color.fromARGB(255, 117, 84, 55),
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                  child: const Row(
+                    children: [
+                      Icon(Icons.person,size: 12,),
+                      SizedBox(width: 4),
+                      Text('Add Friend',style: TextStyle(fontSize: 12),),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(5),
+              itemCount: frienddata.length,
+              itemBuilder: (context, index) {
+                final dataperson = frienddata[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      showFriendProfile(context, dataperson['userID'], dataperson['userName'], dataperson['userImage']);
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 251, 237, 218),
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                    ),
+                    child: Card(
+                      elevation: 0,
+                      color: const Color.fromARGB(255, 251, 237, 218),
                       child: Row(
                         children: [
                           CircleAvatar(
                             foregroundImage: NetworkImage(
-                              'http://103.216.159.116:8300/images/${dataperson['userImage']}',
-                            ),
-                            radius: 30, // ขนาดของ Avatar
+                                'http://103.216.159.116:8300/images/${dataperson['userImage']}'),
                           ),
                           const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              dataperson['userName'],
-                              style: const TextStyle(
-                                color: Color.fromARGB(255, 136, 136, 136),
-                                fontSize: 16, // ขนาดตัวอักษร
-                              ),
-                            ),
+                          Text(
+                            dataperson['userName'],
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 136, 136, 136)),
                           ),
                         ],
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
-      ],
-    ),
-  );
-}
-
+        ],
+      ),
+    );
+  }
 
   Future<void> fetchUserProfile(String userId) async {
     try {
@@ -332,12 +311,12 @@ Widget build(BuildContext context) {
           // ),
           content: SizedBox(
             height: 400,
-            width: double.maxFinite, // Take full width of the AlertDialog
+            width: double.maxFinite,
             child: Column(
               children: [
                 Container(
                   height: 200,
-                  width: double.infinity, // Ensure the container takes the full width
+                  width: double.infinity,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/D_t.jpg'),
@@ -392,7 +371,7 @@ Widget build(BuildContext context) {
                   ),
                 ),
                 SizedBox(
-                  width: double.infinity, // Make the button take full width
+                  width: double.infinity,
                   height: 50 ,
                   child: ElevatedButton(
                     onPressed: () async {
@@ -427,15 +406,15 @@ Widget build(BuildContext context) {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          contentPadding: EdgeInsets.zero, // Remove default padding
+          contentPadding: EdgeInsets.zero,
           content: SizedBox(
             height: 400,
-            width: double.maxFinite, // Take full width of the AlertDialog
+            width: double.maxFinite,
             child: Column(
               children: [
                 Container(
                   height: 200,
-                  width: double.infinity, // Ensure the container takes the full width
+                  width: double.infinity,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/D_t.jpg'),
@@ -462,9 +441,9 @@ Widget build(BuildContext context) {
                     ),
                   ),
                 ),
-                const Spacer(), // This will push the button to the bottom
+                const Spacer(),
                 SizedBox(
-                  width: double.infinity, // Make the button take full width
+                  width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () async {

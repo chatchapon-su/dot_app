@@ -120,6 +120,7 @@ class _SignUpState extends State<SignUp> {
 
         if (response.statusCode == 201) {
           await saveData(_userid.text.trim());
+          // ignore: use_build_context_synchronously
           Navigator.pushReplacement(
             // ignore: use_build_context_synchronously
             context,
@@ -128,10 +129,12 @@ class _SignUpState extends State<SignUp> {
         } else {
           final responseBody = await response.stream.bytesToString();
           if (response.statusCode == 409) {
+            // ignore: use_build_context_synchronously
             showMessageDialog(
                 // ignore: use_build_context_synchronously
                 context, 'Error', 'User ID or email already exists');
           } else {
+            // ignore: use_build_context_synchronously
             showMessageDialog(
                 // ignore: use_build_context_synchronously
                 context, 'Error', 'Failed to sign up: $responseBody');
@@ -172,7 +175,7 @@ class _SignUpState extends State<SignUp> {
                         elevation: 0,
                         shadowColor: Colors.transparent, // ลบเงาตอน hover
                       ).copyWith(
-                        overlayColor: WidgetStateProperty.all(Colors.transparent), // ลบเอฟเฟกต์สีตอน hover
+                        overlayColor: ButtonStyleButton.allOrNull(Colors.transparent) // ลบเอฟเฟกต์สีตอน hover
                       ),
                       onPressed: getPhotoGallery,
                       child: CircleAvatar(
@@ -323,6 +326,17 @@ class _SignUpState extends State<SignUp> {
                       },
                     ),
                     const SizedBox(height: 20),
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     if (_formKey.currentState?.validate() ?? false) {
+                    //       signUp();
+                    //     }
+                    //   },
+                    //   style: ElevatedButton.styleFrom(
+                    //     backgroundColor: const Color.fromARGB(255, 117, 84, 55),
+                    //   ),
+                    //   child: const Text('Sign Up', style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 247, 223, 202))),
+                    // ),
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState?.validate() ?? false) {
@@ -331,8 +345,9 @@ class _SignUpState extends State<SignUp> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 117, 84, 55),
+                        foregroundColor: Colors.white,
                       ),
-                      child: const Text('Sign Up', style: TextStyle(fontSize: 24, color: Color.fromARGB(255, 247, 223, 202))),
+                      child: const Text('Sign Up'),
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(

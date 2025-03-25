@@ -87,7 +87,7 @@ class MenuPageState extends State<MenuPage> {
       backgroundColor: const Color.fromARGB(255, 117, 84, 55),
       body: getContent(_currentIndex),
       bottomNavigationBar: Container(
-        height: 55, // ปรับความสูงที่นี่
+        height: 55,
         color: const Color.fromARGB(255, 117, 84, 55),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -97,13 +97,12 @@ class MenuPageState extends State<MenuPage> {
                 _currentIndex = 0;
               }),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent, // ลบพื้นหลัง
-                shadowColor: Colors.transparent, // ลบเงา
-                padding: EdgeInsets.zero, // ลบ padding
-                // ปรับค่าต่างๆ ตามที่คุณต้องการ
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+                padding: EdgeInsets.zero,
               ),
               child: Column(
-                mainAxisSize: MainAxisSize.min, // ใช้ขนาดที่น้อยที่สุด
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.person_2_rounded,
                       color: _currentIndex == 0
@@ -122,13 +121,12 @@ class MenuPageState extends State<MenuPage> {
                 _currentIndex = 1;
               }),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent, // ลบพื้นหลัง
-                shadowColor: Colors.transparent, // ลบเงา
-                padding: EdgeInsets.zero, // ลบ padding
-                // ปรับค่าต่างๆ ตามที่คุณต้องการ
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+                padding: EdgeInsets.zero,
               ),
               child: Column(
-                mainAxisSize: MainAxisSize.min, // ใช้ขนาดที่น้อยที่สุด
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.chat_rounded,
                       color: _currentIndex == 1
@@ -147,13 +145,12 @@ class MenuPageState extends State<MenuPage> {
                 _currentIndex = 2;
               }),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent, // ลบพื้นหลัง
-                shadowColor: Colors.transparent, // ลบเงา
-                padding: EdgeInsets.zero, // ลบ padding
-                // ปรับค่าต่างๆ ตามที่คุณต้องการ
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+                padding: EdgeInsets.zero,
               ),
               child: Column(
-                mainAxisSize: MainAxisSize.min, // ใช้ขนาดที่น้อยที่สุด
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.play_arrow_rounded,
                       color: _currentIndex == 2
@@ -172,13 +169,12 @@ class MenuPageState extends State<MenuPage> {
                 _currentIndex = 3;
               }),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent, // ลบพื้นหลัง
-                shadowColor: Colors.transparent, // ลบเงา
-                padding: EdgeInsets.zero, // ลบ padding
-                // ปรับค่าต่างๆ ตามที่คุณต้องการ
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+                padding: EdgeInsets.zero,
               ),
               child: Column(
-                mainAxisSize: MainAxisSize.min, // ใช้ขนาดที่น้อยที่สุด
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.newspaper_rounded,
                       color: _currentIndex == 3

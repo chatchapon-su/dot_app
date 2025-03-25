@@ -64,6 +64,7 @@ class VoomState extends State<VoomPage> {
           showMessageDialog(context, 'Error', 'No posts found');
         }
       } else {
+        // ignore: use_build_context_synchronously
         showMessageDialog(
             // ignore: use_build_context_synchronously
             context,

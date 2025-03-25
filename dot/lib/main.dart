@@ -90,12 +90,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
           if (userid.isNotEmpty) {
             await saveData(userid);
+            // ignore: use_build_context_synchronously
             Navigator.pushReplacement(
               // ignore: use_build_context_synchronously
               context,
               MaterialPageRoute(builder: (context) => const Menu()),
             );
           } else {
+            // ignore: use_build_context_synchronously
             Navigator.pushReplacement(
               // ignore: use_build_context_synchronously
               context,
@@ -104,6 +106,7 @@ class _SplashScreenState extends State<SplashScreen> {
           }
         } else {
           //showMessageDialog(context, 'Error', 'Invalid credentials');
+          // ignore: use_build_context_synchronously
           Navigator.pushReplacement(
               // ignore: use_build_context_synchronously
               context,

@@ -35,6 +35,7 @@ class NewsState extends State<NewsPage> {
       if (usercountry.isNotEmpty) {
         await fetchNews(usercountry);
       } else {
+        // ignore: use_build_context_synchronously
         showMessageDialog(context, 'Error', 'User country is empty');
       }
     } catch (e) {
@@ -53,6 +54,7 @@ class NewsState extends State<NewsPage> {
           newsDatatmp = newsdata['articles'];
         });
       } else {
+        // ignore: use_build_context_synchronously
         showMessageDialog(context, 'Error', 'Failed to load news');
       }
     } catch (e) {
@@ -87,6 +89,7 @@ class NewsState extends State<NewsPage> {
                     if (await canLaunchUrl(url)) {
                       await launchUrl(url);
                     } else {
+                      // ignore: use_build_context_synchronously
                       showMessageDialog(context, 'Error', 'Could not launch URL');
                     }
                   },

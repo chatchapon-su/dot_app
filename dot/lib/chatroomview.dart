@@ -139,8 +139,8 @@ class ChatroomState extends State<ChatroomPage> {
           try {
             final data = jsonDecode(response.body);
             String chatdataid =
-                data['chatdataid'].toString(); // แปลงเป็น string
-            String chatid = data['chatid'].toString(); // แปลงเป็น string
+                data['chatdataid'].toString();
+            String chatid = data['chatid'].toString();
 
             if (_userimage != null) {
               await _uploadImage(_userimage!, chatdataid, chatid);
@@ -156,6 +156,7 @@ class ChatroomState extends State<ChatroomPage> {
             });
             _scrollToBottom();
           } catch (e) {
+            // ignore: use_build_context_synchronously
             showMessageDialog(
                 // ignore: use_build_context_synchronously
                 context, 'Error', 'Error parsing JSON response: $e');
@@ -196,8 +197,8 @@ class ChatroomState extends State<ChatroomPage> {
         setState(() {
           _messages.add({
             'username': username,
-            'chatmessage': '', // ไม่มีข้อความ
-            'imageUrl': imageUrl, // ใช้ imageUrl แทน
+            'chatmessage': '',
+            'imageUrl': imageUrl,
             'userimage': userimage,
             'chatuserid': userId,
           });
@@ -205,6 +206,7 @@ class ChatroomState extends State<ChatroomPage> {
         });
         _scrollToBottom();
       } else {
+        // ignore: use_build_context_synchronously
         showMessageDialog(
             // ignore: use_build_context_synchronously
             context, 'Error', 'Failed to upload image: ${response.statusCode}');
@@ -299,7 +301,7 @@ class ChatroomState extends State<ChatroomPage> {
                           ? Image.network(
                               imageUrl,
                               width: 250,
-                            ) // แสดงรูปภาพ
+                            )
                           : Text(
                               message,
                               style: userID == userId

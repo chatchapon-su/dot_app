@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'chatroomview.dart';
@@ -26,9 +27,11 @@ class ChatState extends State<ChatPage> {
       if (userId.isNotEmpty) {
         fetchChatRooms();
       } else {
+        // ignore: use_build_context_synchronously
         showMessageDialog(context, 'Error', 'User ID is empty');
       }
     } catch (e) {
+      // ignore: use_build_context_synchronously
       showMessageDialog(context, 'Error', 'Error reading SharedPreferences: $e');
     }
   }
@@ -39,13 +42,16 @@ class ChatState extends State<ChatPage> {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
+
         setState(() {
           chatRooms = List<Map<String, dynamic>>.from(data['chatrooms']);
         });
       } else {
+        // ignore: use_build_context_synchronously
         showMessageDialog(context, 'Error', 'Failed to load chat rooms: ${response.statusCode}');
       }
     } catch (e) {
+      // ignore: use_build_context_synchronously
       showMessageDialog(context, 'Error', 'Error fetching chat rooms: $e');
     }
   }
@@ -64,7 +70,8 @@ class ChatState extends State<ChatPage> {
   }
 
   void startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 30), (Timer timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      // ฟังก์ชันที่จะเรียกทุกๆ 1 วินาที
       fetchChatRooms();
     });
   }
@@ -72,97 +79,90 @@ class ChatState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color.fromARGB(255, 251, 237, 218), Color(0xFFE6C9C9)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
+      backgroundColor: const Color.fromARGB(255, 251, 237, 218),
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 117, 84, 55),
+        title: const Text('Chat', style: TextStyle(color: Colors.white)),
+        automaticallyImplyLeading: false,
+      ),
+      body: SingleChildScrollView(
         child: Column(
-          children: [
-            AppBar(
-              backgroundColor: const Color.fromARGB(255, 117, 84, 55),
-              title: const Text('Chat', style: TextStyle(color: Colors.white)),
-              automaticallyImplyLeading: false,
-            ),
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.all(10),
-                itemCount: chatRooms.length,
-                itemBuilder: (context, index) {
-                  final chatRoom = chatRooms[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChatroomPage(chatRoom['chatid'].toString(), chatRoom['userName']),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 251, 237, 218),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
+          children: chatRooms.map((chatRoom) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: ElevatedButton(
+                onPressed: () async{
+                  //await showMessageDialog(context, 'Chat', 'Chat ID : ${chatRoom['chatid']}');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChatroomPage(chatRoom['chatid'].toString(),chatRoom['userName']),//ChatroomPage(chatRoom['chatid']),
+                    ),
+                  );
+                  //showMessageDialog(context, 'Chat', 'Chat ID : ${chatRoom['chatid']}');
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 251, 237, 218),
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                ),
+                child: Card(
+                  elevation: 0,
+                  color: Colors.transparent,
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        //radius: 30,
+                        backgroundImage: NetworkImage(
+                          'http://103.216.159.116:8300/images/${chatRoom['userImage']}',
                         ),
-                        elevation: 5,
                       ),
-                      child: Card(
-                        elevation: 0,
-                        color: Colors.transparent,
-                        child: Row(
+                      const SizedBox(width: 15),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundImage: NetworkImage(
-                                'http://103.216.159.116:8300/images/${chatRoom['userImage']}',
+                            Text(
+                              chatRoom['userName'],
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Color(0xFF4A4A4A),
                               ),
                             ),
-                            const SizedBox(width: 15),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    chatRoom['userName'],
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: Color(0xFF4A4A4A),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    'Last message...',
-                                    style: TextStyle(
-                                      color: Colors.grey[600],
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
+                            const SizedBox(height: 5),
+                            chatRoom['lastMessage'] != null?
+                            Text(
+                              chatRoom['lastMessage'],
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 14,
+                              ),
+                            ):Text(
+                              '',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 14,
                               ),
                             ),
-                           // Icon(Icons.arrow_forward_ios, color: Colors.grey[600]),
                           ],
                         ),
                       ),
-                    ),
-                  );
-                },
+                      // Icon(Icons.arrow_forward_ios, color: Colors.grey[600]),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ],
+            );
+          }).toList(),
         ),
       ),
     );
   }
 }
 
-Future<dynamic> showMessageDialog(BuildContext context, String headerMsg, String msg) {
+Future<dynamic> showMessageDialog(
+    BuildContext context, String headerMsg, String msg) {
   return showDialog(
     context: context,
     barrierDismissible: true,
