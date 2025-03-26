@@ -18,7 +18,7 @@ class NewsState extends State<NewsPage> {
   List<dynamic> newsDatatmp = [];
 
   var parameters = 'country=';
-  var apikey = 'apiKey=f25cfe0fff9d48008de8ccc890369cb0';
+  var apikey = 'apiKey=yourapikey';
   var api = 'https://newsapi.org/v2/top-headlines';
 
   @override
